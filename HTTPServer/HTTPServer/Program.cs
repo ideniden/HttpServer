@@ -13,7 +13,7 @@ namespace HTTPServerLib
         static void Main(string[] args)
         {
             ExampleServer server = new ExampleServer("0.0.0.0", 4050);
-            server.SetRoot(@"D:\Hexo\public");
+            server.SetRoot(@"C:\Develop\Win32\HttpServer\HTTPServer\HTTPServer\wwwroot");
             server.Logger = new ConsoleLogger();
             server.Start();
         }
