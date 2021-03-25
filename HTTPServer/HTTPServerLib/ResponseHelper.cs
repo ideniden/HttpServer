@@ -12,6 +12,11 @@ namespace HTTPServerLib
     {
         public static HttpResponse FromFile(this HttpResponse response, string fileName)
         {
+            if (fileName.IndexOf("?") > 0)
+            {
+                fileName = fileName.Substring(0, fileName.IndexOf("?"));
+            }
+
             if (!File.Exists(fileName))
             {
                 response.SetContent("<html><body><h1>404 - Not Found</h1></body></html>");
@@ -68,7 +73,7 @@ namespace HTTPServerLib
             if (!File.Exists(filePath))
                 throw new FileNotFoundException(string.Format("File {0} can't be found at server.", filePath));
 
-            int MaxContent = (int)new FileInfo(filePath).Length;
+            int MaxContent = (int) new FileInfo(filePath).Length;
             if (MaxContent > 4096) MaxContent = 4096;
             byte[] buf = new byte[MaxContent];
 
@@ -90,14 +95,13 @@ namespace HTTPServerLib
 
         [DllImport("urlmon.dll", CharSet = CharSet.Unicode, ExactSpelling = true, SetLastError = false)]
         static extern int FindMimeFromData(IntPtr pBC,
-              [MarshalAs(UnmanagedType.LPWStr)] string pwzUrl,
-              [MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.I1, SizeParamIndex = 3)] 
-              byte[] pBuffer,
-              int cbSize,
-              [MarshalAs(UnmanagedType.LPWStr)]  
-              string pwzMimeProposed,
-              int dwMimeFlags,
-              out IntPtr ppwzMimeOut,
-              int dwReserved);
+            [MarshalAs(UnmanagedType.LPWStr)] string pwzUrl,
+            [MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.I1, SizeParamIndex = 3)]
+            byte[] pBuffer,
+            int cbSize,
+            [MarshalAs(UnmanagedType.LPWStr)] string pwzMimeProposed,
+            int dwMimeFlags,
+            out IntPtr ppwzMimeOut,
+            int dwReserved);
     }
 }
